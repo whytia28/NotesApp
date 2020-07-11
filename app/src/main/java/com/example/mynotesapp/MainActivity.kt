@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.Main) {
             progress_bar.visibility = View.VISIBLE
             val deferredNotes = async(Dispatchers.IO) {
+
+                // CONTENT_URI = content://com.example.mynotesapp/noteCursor
                 val cursor = contentResolver?.query(CONTENT_URI, null, null, null, null)
                 MappingHelper.mapCursorToArrayList(cursor)
             }
@@ -88,45 +90,6 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(EXTRA_STATE, adapter.listNotes)
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (data != null) {
-//            when (requestCode) {
-//                NoteAddUpdateActivity.REQUEST_ADD -> if (resultCode == NoteAddUpdateActivity.RESULT_ADD) {
-//                    val note = data.getParcelableExtra<Note>(NoteAddUpdateActivity.EXTRA_NOTE)
-//
-//                    adapter.addItem(note)
-//                    rv_notes.smoothScrollToPosition(adapter.itemCount - 1)
-//
-//                    showSnackBarMessage("Satu item berhasil ditambahkan")
-//                }
-//
-//                NoteAddUpdateActivity.RESULT_UPDATE ->
-//                    when (resultCode) {
-//                        NoteAddUpdateActivity.RESULT_UPDATE -> {
-//
-//                            val note =
-//                                data.getParcelableExtra<Note>(NoteAddUpdateActivity.EXTRA_NOTE)
-//                            val position = data.getIntExtra(NoteAddUpdateActivity.EXTRA_POSITION, 0)
-//
-//                            adapter.updateItem(position, note)
-//                            rv_notes.smoothScrollToPosition(position)
-//
-//                            showSnackBarMessage("Satu item berhasil ditambahkan")
-//                        }
-//                        NoteAddUpdateActivity.RESULT_DELETE -> {
-//                            val position = data.getIntExtra(NoteAddUpdateActivity.EXTRA_POSITION, 0)
-//
-//                            adapter.removeItem(position)
-//
-//                            showSnackBarMessage("Satu item berhasil dihapus")
-//                        }
-//                    }
-//            }
-//        }
-//    }
 
     private fun showSnackBarMessage(message: String) {
         Snackbar.make(rv_notes, message, Snackbar.LENGTH_SHORT).show()
